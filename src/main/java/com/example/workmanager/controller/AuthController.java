@@ -39,11 +39,6 @@ public class AuthController {
         return ResponseEntity.ok(error);
     }
 
-    @GetMapping("/health")
-    public ResponseEntity<String> health() {
-        return ResponseEntity.ok("OK");
-    }
-    
     @GetMapping("/test")
     public ResponseEntity<Map<String, Object>> test() {
         Map<String, Object> result = new HashMap<>();
