@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
 
-    @PostMapping("/api/auth/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> request) {
         String employeeId = request.get("employeeId");
         String password = request.get("password");
@@ -40,12 +39,12 @@ public class AuthController {
         return ResponseEntity.ok(error);
     }
 
-    @GetMapping("/api/health")
+    @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("OK");
     }
     
-    @GetMapping("/api/test")
+    @GetMapping("/test")
     public ResponseEntity<Map<String, Object>> test() {
         Map<String, Object> result = new HashMap<>();
         result.put("status", "success");
