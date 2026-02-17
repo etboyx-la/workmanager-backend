@@ -1,0 +1,10 @@
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "java -Dserver.port=$PORT $JAVA_OPTS -jar target/*.jar",
+    "healthcheckPath": "/api/health",
+    "healthcheckTimeout": 100
+  }
+}

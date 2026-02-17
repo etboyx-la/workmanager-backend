@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: railway
+    
+  application:
+    name: workmanager-backend
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.example.workmanager: INFO
