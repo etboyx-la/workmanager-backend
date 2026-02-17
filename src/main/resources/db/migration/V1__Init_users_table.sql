@@ -8,8 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     role VARCHAR(20) DEFAULT 'user',
     status INTEGER DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted INTEGER DEFAULT 0
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 插入测试用户
@@ -20,4 +19,3 @@ ON CONFLICT (employee_id) DO NOTHING;
 -- 创建索引
 CREATE INDEX IF NOT EXISTS idx_users_employee_id ON users(employee_id);
 CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
-CREATE INDEX IF NOT EXISTS idx_users_deleted ON users(deleted);

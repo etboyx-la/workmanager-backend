@@ -1,55 +1,34 @@
-# WorkManager Backend - Railway部署指南
+# WorkManager Backend - 简化版Railway部署
 
 ## 🎯 快速部署到Railway
 
-### 步骤1: 准备代码
-确保你的项目包含以下文件：
-- `pom.xml` - Maven项目配置
-- `Procfile` - Railway启动配置
-- `system.properties` - Java版本配置
-- `railway.json` - Railway配置
+这是一个简化的Spring Boot项目，专为Railway部署优化。
 
-### 步骤2: 推送到GitHub
-```bash
-# 初始化Git
-git init
-git add .
-git commit -m "Initial commit for Railway deployment"
+### 核心功能
+- ✅ 简单的用户认证 (demo/123456)
+- ✅ PostgreSQL数据库支持
+- ✅ Flyway数据库迁移
+- ✅ 健康检查端点
 
-# 推送到GitHub
-git remote add origin https://github.com/your-username/workmanager-backend.git
-git push -u origin main
+### API接口
+
+#### 1. 健康检查
+```
+GET /api/health
 ```
 
-### 步骤3: 在Railway部署
-1. 访问 [railway.app](https://railway.app)
-2. 使用GitHub登录
-3. 点击"New Project" → "Deploy from GitHub repo"
-4. 选择你的仓库
-5. 等待部署完成
-
-### 步骤4: 添加PostgreSQL数据库
-1. 在Railway Dashboard中点击"New" → "Database" → "Add PostgreSQL"
-2. 等待数据库创建完成
-3. Railway会自动设置`DATABASE_URL`环境变量
-
-### 步骤5: 配置环境变量
-在Railway Dashboard中设置以下环境变量：
+#### 2. 登录接口
 ```
-SPRING_PROFILES_ACTIVE=railway
-JWT_SECRET=workmanager-railway-secret-key-for-jwt-token-2024
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "employeeId": "demo",
+  "password": "123456"
+}
 ```
 
-## 🧪 测试API
-
-### 登录测试
-```bash
-curl -X POST https://your-app-name.railway.app/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"employeeId":"demo","password":"123456"}'
-```
-
-预期响应：
+响应：
 ```json
 {
   "success": true,
@@ -63,14 +42,39 @@ curl -X POST https://your-app-name.railway.app/api/auth/login \
 }
 ```
 
-### 文件上传测试
+## 🚀 部署步骤
+
+### 1. 在Railway部署
+1. 访问 [railway.app](https://railway.app)
+2. 使用GitHub登录
+3. 点击"New Project" → "Deploy from GitHub repo"
+4. 选择这个仓库
+5. 等待部署完成
+
+### 2. 添加PostgreSQL数据库
+1. 在Railway Dashboard点击"New" → "Database" → "Add PostgreSQL"
+2. 等待数据库创建完成
+
+### 3. 设置环境变量
+在Railway Dashboard设置：
+```
+SPRING_PROFILES_ACTIVE=railway
+```
+
+## 🧪 测试API
+
+部署完成后，测试API：
+
+### 健康检查
 ```bash
-curl -X POST https://your-app-name.railway.app/api/files/upload \
-  -H "Content-Type: multipart/form-data" \
-  -F "file=@/path/to/test-image.jpg" \
-  -F "categoryId=construction" \
-  -F "categoryName=施工管理" \
-  -F "employeeId=demo"
+curl https://your-app-name.railway.app/api/health
+```
+
+### 登录测试
+```bash
+curl -X POST https://your-app-name.railway.app/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"employeeId":"demo","password":"123456"}'
 ```
 
 ## 📱 Android应用配置
@@ -82,54 +86,21 @@ companion object {
 }
 ```
 
-## 🔧 本地开发
+## 🔧 技术栈
 
-### 启动应用
-```bash
-# 编译项目
-mvn clean package
+- **Spring Boot**: 3.0.8
+- **Java**: 17
+- **PostgreSQL**: 13+
+- **Flyway**: 数据库迁移
+- **Maven**: 构建工具
 
-# 运行应用
-mvn spring-boot:run
-```
+## 💡 项目特点
 
-### 本地测试
-```bash
-# 测试登录
-curl -X POST http://localhost:8080/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"employeeId":"demo","password":"123456"}'
-```
-
-## 📊 API接口
-
-### 认证接口
-- `POST /api/auth/login` - 用户登录
-- `POST /api/auth/logout` - 用户登出
-
-### 文件接口
-- `POST /api/files/upload` - 文件上传
-- `GET /api/files/download/{filename}` - 文件下载
-
-### 健康检查
-- `GET /api/health` - 健康检查
-- `GET /` - 根路径
-
-## 💡 注意事项
-
-1. **免费限制**: Railway免费版每月500小时使用时间
-2. **文件存储**: Railway临时文件系统会在重启后清空
-3. **数据库**: PostgreSQL数据库会在免费版过期后暂停
-4. **域名**: 默认域名格式为 `your-app-name.railway.app`
-
-## 🚀 升级到付费版
-
-如需无限使用，可以升级到Railway Pro版 ($5/月)：
-- 无限使用时间
-- 8GB内存
-- 自定义域名
-- 优先支持
+- **极简设计**: 去除不必要的依赖
+- **快速构建**: 优化Maven配置
+- **稳定部署**: 经过测试的Railway配置
+- **易于扩展**: 基础架构可扩展
 
 ---
 
-**部署完成后，你的WorkManagerApp就可以连接到这个后端API了！**
+**这个简化版本专门针对Railway部署优化，避免了复杂的构建问题。**
